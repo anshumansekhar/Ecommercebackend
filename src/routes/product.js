@@ -32,11 +32,10 @@ router.post(
   "/product/create",
   requireSignin,
   adminMiddleware,
-  uploadS3.array("productPicture"),
+  upload.array("productPicture"),
   createProduct
 );
 router.get("/products/:slug", getProductsBySlug);
-//router.get('/category/getcategory', getCategories);
 router.get("/product/:productId", getProductDetailsById);
 router.delete(
   "/product/deleteProductById",

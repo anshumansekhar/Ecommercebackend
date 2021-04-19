@@ -23,6 +23,11 @@ const productSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    author:{
+        type:String,
+        required:true,
+        trim:true
+    },
     offer: { type: Number },
     productPictures: [
         { img: { type: String } }

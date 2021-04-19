@@ -1,7 +1,35 @@
 const Order = require("../models/order");
 const Cart = require("../models/cart");
 const Address = require("../models/address");
+const env = require("dotenv");
+const razorpay = require('razorpay');
 
+env.config();
+const razorpayInstance = new razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET
+});
+
+
+exports.createOrder=(req,res)=>{
+  var options = {
+    amount: req.body.totalAmount,  // amount in the smallest currency unit
+    currency: "INR",
+    receipt: "order_rcptid_11"
+  };
+  
+  razorpayInstance.orders.create(options, function(err, order) {
+    if(order){
+      console.log(order);
+      res.status(200).json(order);
+    }
+    if(err){
+      res.status(500).json(err);
+    }
+  });
+  
+
+}
 exports.addOrder = (req, res) => {
   Cart.deleteOne({ user: req.user._id }).exec((error, result) => {
     if (error) return res.status(400).json({ error });

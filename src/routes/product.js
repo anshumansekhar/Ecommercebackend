@@ -2,8 +2,7 @@ const express = require("express");
 //const {  } = require('../controller/category');
 const {
   requireSignin,
-  adminMiddleware,
-  uploadS3,
+  adminMiddleware
 } = require("../common-middleware");
 const {
   createProduct,

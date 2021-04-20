@@ -12,7 +12,7 @@ exports.createProduct = (req, res) => {
   if (req.files.length > 0) {
     productPictures = req.files.map((file) => {
       return { 
-        img: file.path,
+        img: file.filename,
         name:file.filename
       };
     });
@@ -119,10 +119,27 @@ exports.deleteProductById = (req, res) => {
 };
 
 exports.getProducts = async (req, res) => {
-  const products = await Product.find({ createdBy: req.user._id })
+  const products = await Product.find({})
     .select("_id name price quantity slug description productPictures category")
     .populate({ path: "category", select: "_id name" })
     .exec();
 
   res.status(200).json({ products });
+};
+exports.decreaseProduct=(req,res,next)=>{
+    req.body.items.map((product)=>{
+      Product.findByIdAndUpdate(product.productId,{
+        $inc:{
+          quantity:-product.purchasedQty
+        }},function (err,docs) {
+          if(err){
+            console.log(err)
+            return res.status(400).json({message:"Failed to decrease count"})
+          }
+          else{
+          }
+        }
+      )
+    })
+    next();
 };

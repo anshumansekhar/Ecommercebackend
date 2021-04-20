@@ -44,8 +44,6 @@ router.delete(
 );
 router.post(
   "/product/getProducts",
-  requireSignin,
-  adminMiddleware,
   getProducts
 );
 
